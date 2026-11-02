@@ -1,0 +1,150 @@
+######################################################################
+# Tekton Tasks for the Accounts CD pipeline
+######################################################################
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: cleanup
+spec:
+  description: Clean the workspace before cloning.
+  workspaces:
+    - name: source
+  steps:
+    - name: remove
+      image: alpine:3
+      env:
+        - name: WORKSPACE_SOURCE_PATH
+          value: $(workspaces.source.path)
+      workingDir: $(workspaces.source.path)
+      securityContext:
+        runAsNonRoot: false
+        runAsUser: 0
+      script: |
+        #!/usr/bin/env sh
+        set -eu
+        echo "Removing all files from ${WORKSPACE_SOURCE_PATH} ..."
+        if [ -d "${WORKSPACE_SOURCE_PATH}" ]; then
+          rm -rf "${WORKSPACE_SOURCE_PATH:?}"/*
+          rm -rf "${WORKSPACE_SOURCE_PATH}"/.[!.]*
+          rm -rf "${WORKSPACE_SOURCE_PATH}"/..?*
+        fi
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: git-clone
+spec:
+  description: Clone the repository into the workspace.
+  workspaces:
+    - name: output
+  params:
+    - name: url
+      type: string
+    - name: revision
+      type: string
+      default: main
+  steps:
+    - name: clone
+      image: alpine/git:2.45.2
+      workingDir: $(workspaces.output.path)
+      script: |
+        #!/usr/bin/env sh
+        set -eu
+        echo "Cloning $(params.url) at $(params.revision)"
+        git clone "$(params.url)" .
+        git checkout "$(params.revision)"
+        git log -1 --oneline
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: flake8
+spec:
+  description: Lint the service with flake8.
+  workspaces:
+    - name: source
+  steps:
+    - name: lint
+      image: python:3.12-slim
+      workingDir: $(workspaces.source.path)
+      script: |
+        #!/usr/bin/env bash
+        set -eu
+        python -m pip install --quiet flake8
+        flake8 service --count --max-line-length=127 --statistics
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: pytest
+spec:
+  description: Run the unit tests.
+  workspaces:
+    - name: source
+  steps:
+    - name: test
+      image: python:3.12-slim
+      workingDir: $(workspaces.source.path)
+      env:
+        - name: DATABASE_URI
+          value: sqlite:///test_accounts.db
+        - name: SECRET_KEY
+          value: pipeline-secret
+      script: |
+        #!/usr/bin/env bash
+        set -eu
+        python -m pip install --quiet -r requirements.txt
+        python -m pytest -q
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: buildah
+spec:
+  description: Build and push the container image with Buildah.
+  workspaces:
+    - name: source
+  params:
+    - name: image
+      type: string
+    - name: tls-verify
+      type: string
+      default: "false"
+  steps:
+    - name: build
+      image: quay.io/buildah/stable:v1.35.0
+      workingDir: $(workspaces.source.path)
+      securityContext:
+        privileged: true
+      script: |
+        #!/usr/bin/env bash
+        set -eu
+        buildah bud --storage-driver=vfs --tls-verify=$(params.tls-verify) \
+          -t $(params.image) .
+        buildah push --storage-driver=vfs --tls-verify=$(params.tls-verify) \
+          $(params.image) docker://$(params.image)
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: deploy
+spec:
+  description: Deploy the Accounts service and wait for the rollout.
+  workspaces:
+    - name: source
+  params:
+    - name: image
+      type: string
+  steps:
+    - name: apply
+      image: bitnami/kubectl:1.30
+      workingDir: $(workspaces.source.path)
+      script: |
+        #!/usr/bin/env bash
+        set -eu
+        kubectl apply -f deploy/postgresql.yaml
+        sed -i "s|image: accounts:1|image: $(params.image)|" deploy/deployment.yaml
+        kubectl apply -f deploy/deployment.yaml
+        kubectl apply -f deploy/service.yaml
+        kubectl rollout status deployment/accounts --timeout=180s
+        kubectl get all -l app=accounts

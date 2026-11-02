@@ -1,0 +1,3 @@
+$ docker image ls accounts:1
+IMAGE        ID             DISK USAGE   CONTENT SIZE   EXTRA
+accounts:1   02ed1c389c9e        337MB         76.5MB   U    

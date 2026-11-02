@@ -1,0 +1,19 @@
+# Runtime
+Flask>=3.1,<4
+Flask-SQLAlchemy>=3.1,<4
+SQLAlchemy>=2.0,<3
+Flask-Talisman>=1.1,<2
+Flask-Cors>=6,<7
+gunicorn>=23,<24
+python-dotenv>=1.0,<2
+psycopg2-binary>=2.9,<3
+
+# Testing
+pytest>=8,<10
+pytest-cov>=6,<7
+factory-boy>=3.3,<4
+
+# Code quality
+flake8>=7,<8
+pylint>=3,<4
+black>=24,<26

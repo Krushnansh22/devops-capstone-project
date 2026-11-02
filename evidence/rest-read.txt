@@ -1,0 +1,17 @@
+$ curl -i -s -X GET http://127.0.0.1:5000/accounts/1
+HTTP/1.1 200 OK
+Server: Werkzeug/3.1.9 Python/3.14.4
+Date: Mon, 02 Nov 2026 07:08:41 GMT
+Content-Type: application/json
+Content-Length: 128
+Access-Control-Allow-Origin: *
+Access-Control-Expose-Headers: X-Request-Id
+Permissions-Policy: browsing-topics=()
+X-Frame-Options: SAMEORIGIN
+X-Content-Type-Options: nosniff
+Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:
+Referrer-Policy: strict-origin-when-cross-origin
+Connection: close
+
+{"address":"123 Main St.","date_joined":"2026-11-02","email":"john@doe.com","id":1,"name":"John Doe","phone_number":"555-1212"}
+

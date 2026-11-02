@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pipelinerun-pvc
+spec:
+  # Change this to your cluster's storage class. The IBM Skills Network lab
+  # provides "skills-network-learner".
+  storageClassName: skills-network-learner
+  resources:
+    requests:
+      storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany

@@ -1,0 +1,36 @@
+# PLACEHOLDER — replace with real Tekton output
+#
+# In the IBM Cloud IDE / OpenShift lab, after a successful pipeline run:
+#
+#   tkn pipelinerun logs -L > pipelinerun.txt
+#
+# Then copy that file over this one. The grader expects a real log with the
+# stages below.
+#
+# Expected structure:
+#
+# PipelineRun: cd-pipeline-run-xxxxx
+# ----------------------------------
+# Task: init
+#   Removing all files from /workspace/source ...
+# Task: clone
+#   Cloning https://github.com/Krushnansh22/devops-capstone-project.git at main
+#   <commit sha> <commit message>
+# Task: lint
+#   flake8 service --count --max-line-length=127 --statistics
+# Task: tests
+#   ................................
+#   32 passed
+# Task: build
+#   buildah bud --storage-driver=vfs -t .../accounts:1 .
+#   Successfully tagged .../accounts:1
+#   Getting image source signatures
+#   Writing manifest to image destination
+# Task: deploy
+#   deployment.apps/accounts configured
+#   service/accounts configured
+#   deployment "accounts" successfully rolled out
+#   NAME                        READY   STATUS    RESTARTS   AGE
+#   pod/accounts-xxxxxxxxx-xxxxx 1/1    Running   0          20s
+#
+# Replace this file with the actual output. Do not submit this placeholder.

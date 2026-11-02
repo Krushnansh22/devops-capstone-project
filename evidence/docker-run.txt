@@ -1,0 +1,55 @@
+$ docker run -d --name accounts-test -p 18080:8080 accounts:1
+87d9db85adb885b24c62ee9097d7bf25bff12c4aa9731cd55e465e42faba444f
+
+$ docker ps --filter name=accounts-test
+CONTAINER ID   IMAGE        COMMAND                  CREATED          STATUS                    PORTS                                           NAMES
+87d9db85adb8   accounts:1   "/app/bin/entrypoint…"   12 seconds ago   Up 11 seconds (healthy)   0.0.0.0:18080->8080/tcp, [::]:18080->8080/tcp   accounts-test
+
+$ curl -i -s http://127.0.0.1:18080/health
+HTTP/1.1 200 OK
+Server: gunicorn
+Date: Mon, 02 Nov 2026 07:14:17 GMT
+Connection: close
+Content-Type: application/json
+Content-Length: 16
+Access-Control-Allow-Origin: *
+Access-Control-Expose-Headers: X-Request-Id
+Permissions-Policy: browsing-topics=()
+X-Frame-Options: SAMEORIGIN
+X-Content-Type-Options: nosniff
+Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:
+Referrer-Policy: strict-origin-when-cross-origin
+
+{"status":"OK"}
+
+$ curl -i -s -X POST http://127.0.0.1:18080/accounts -H "Content-Type: application/json" -d @account.json
+HTTP/1.1 201 CREATED
+Server: gunicorn
+Date: Mon, 02 Nov 2026 07:14:17 GMT
+Connection: close
+Content-Type: application/json
+Content-Length: 128
+Location: http://127.0.0.1:18080/accounts/2
+Access-Control-Allow-Origin: *
+Access-Control-Expose-Headers: X-Request-Id
+Permissions-Policy: browsing-topics=()
+X-Frame-Options: SAMEORIGIN
+X-Content-Type-Options: nosniff
+Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:
+Referrer-Policy: strict-origin-when-cross-origin
+
+{"address":"123 Main St.","date_joined":"2026-11-02","email":"john@doe.com","id":2,"name":"John Doe","phone_number":"555-1212"}
+
+$ docker logs accounts-test | tail -12
+[2026-11-02 07:14:11 +0000] [INFO] [log_handlers] Logging handler established
+[2026-11-02 07:14:11 +0000] [INFO] [log_handlers] Logging handler established
+[2026-11-02 07:14:11 +0000] [INFO] [__init__] **********************************************************************
+[2026-11-02 07:14:11 +0000] [INFO] [__init__] **********  A C C O U N T   S E R V I C E   R U N N I N G  ***********
+[2026-11-02 07:14:11 +0000] [INFO] [__init__] **********************************************************************
+[2026-11-02 07:14:11 +0000] [INFO] [__init__] **********************************************************************
+[2026-11-02 07:14:11 +0000] [INFO] [__init__] **********  A C C O U N T   S E R V I C E   R U N N I N G  ***********
+[2026-11-02 07:14:11 +0000] [INFO] [__init__] **********************************************************************
+[2026-11-02 07:14:11 +0000] [INFO] [__init__] Service initialized!
+[2026-11-02 07:14:11 +0000] [INFO] [__init__] Service initialized!
+[2026-11-02 07:14:12 +0000] [INFO] [routes] Request to create an Account
+[2026-11-02 07:14:17 +0000] [INFO] [routes] Request to create an Account
