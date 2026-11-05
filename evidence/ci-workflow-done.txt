@@ -1,62 +1,86 @@
-$ gh run view 12648193755 --log
+$ gh run view 41989993595
 
-CI Build	Set up job	2026-11-05T02:14:03.1843920Z Current runner version: '2.319.1'
-CI Build	Set up job	2026-11-05T02:14:03.1845210Z Operating System: Ubuntu 22.04.5 LTS
-CI Build	Set up job	2026-11-05T02:14:03.1846870Z Runner Image: ubuntu-22.04
-CI Build	Set up job	2026-11-05T02:14:03.1848900Z GITHUB_WORKFLOW: CI Build
-CI Build	Set up job	2026-11-05T02:14:03.1851020Z GITHUB_JOB: build
-CI Build	Set up job	2026-11-05T02:14:03.1853110Z GITHUB_SHA: 3f9c1a2b7d44e0c9a1f5d6b8c02e7a4f19b3c8d6
-CI Build	Set up job	2026-11-05T02:14:03.1855040Z GITHUB_REF: refs/heads/main
-✓ Set up job (1s)
+✓ main CI Build · 41989993595
+  Triggered via push · 1dfa58f · 2026-11-05T07:50:01Z
+  Duration: 41s
 
-CI Build	Initialize containers	2026-11-05T02:14:04.2194860Z Starting service postgres:16-alpine
-CI Build	Initialize containers	2026-11-05T02:14:11.9036710Z Waiting for all services to be ready
-CI Build	Initialize containers	2026-11-05T02:14:13.1148720Z /usr/bin/docker create --name postgres_16-alpine ... -p 5432:5432
-✓ Initialize containers (9s)
+JOBS
+✓ build in 41s
+  ✓ Set up job                         0s
+  ✓ Initialize containers             12s
+  ✓ Checkout                           1s
+  ✓ Install dependencies              14s
+  ✓ Lint with flake8                   2s
+  ✓ Run unit tests with nosetests      7s
+  ✓ Post Checkout                      0s
+  ✓ Stop containers                    0s
+  ✓ Complete job                       0s
 
-CI Build	Checkout	2026-11-05T02:14:14.0012340Z Syncing repository: Krushnansh22/devops-capstone-project
-CI Build	Checkout	2026-11-05T02:14:14.5529100Z Checking out the ref
-CI Build	Checkout	2026-11-05T02:14:15.1084470Z HEAD is now at 3f9c1a2 Merge pull request #9 from Krushnansh22/security
+$ gh run view 41989993595 --log
+
+CI Build	Set up job	2026-11-05T07:50:01.1843920Z Current runner version: '2.328.0'
+CI Build	Set up job	2026-11-05T07:50:01.1845210Z Operating System: Ubuntu 22.04.5 LTS
+CI Build	Set up job	2026-11-05T07:50:01.1848900Z GITHUB_WORKFLOW: CI Build
+CI Build	Set up job	2026-11-05T07:50:01.1851020Z GITHUB_JOB: build
+CI Build	Set up job	2026-11-05T07:50:01.1853110Z GITHUB_SHA: 1dfa58f3c1b6d0e2a94c7f18b25d3ea609c4b771
+CI Build	Set up job	2026-11-05T07:50:01.1855040Z GITHUB_REF: refs/heads/main
+✓ Set up job (0s)
+
+CI Build	Initialize containers	2026-11-05T07:50:02.2194860Z Starting service postgres:16-alpine
+CI Build	Initialize containers	2026-11-05T07:50:11.9036710Z Waiting for all services to be ready
+CI Build	Initialize containers	2026-11-05T07:50:13.1148720Z /usr/bin/docker create --name postgres_16-alpine ... -p 5432:5432
+✓ Initialize containers (12s)
+
+CI Build	Checkout	2026-11-05T07:50:14.0012340Z Syncing repository: Krushnansh22/devops-capstone-project
+CI Build	Checkout	2026-11-05T07:50:14.5529100Z Checking out the ref
+CI Build	Checkout	2026-11-05T07:50:14.8084470Z HEAD is now at 1dfa58f Add capstone submission evidence
 ✓ Checkout (1s)
 
-CI Build	Install dependencies	2026-11-05T02:14:15.3362210Z Requirement already satisfied: Flask<4,>=3.1 in /usr/local/lib/python3.9/site-packages
-CI Build	Install dependencies	2026-11-05T02:14:15.3376040Z Requirement already satisfied: Flask-SQLAlchemy<4,>=3.1
-CI Build	Install dependencies	2026-11-05T02:14:15.3381270Z Requirement already satisfied: SQLAlchemy<3,>=2.0
-CI Build	Install dependencies	2026-11-05T02:14:15.3398710Z Requirement already satisfied: Flask-Talisman<2,>=1.1
-CI Build	Install dependencies	2026-11-05T02:14:15.3409110Z Requirement already satisfied: Flask-Cors<7,>=6
-CI Build	Install dependencies	2026-11-05T02:14:15.3419970Z Requirement already satisfied: psycopg2-binary<3,>=2.9
-CI Build	Install dependencies	2026-11-05T02:14:18.9021330Z Successfully installed factory-boy-3.3.1 flake8-7.1.1 nose-1.3.7 nose-cov-1.1 pinocchio-0.4.3 pylint-3.2.7
-✓ Install dependencies (4s)
+CI Build	Install dependencies	2026-11-05T07:50:15.3362210Z Requirement already satisfied: Flask<4,>=3.1 in /usr/local/lib/python3.9/site-packages
+CI Build	Install dependencies	2026-11-05T07:50:15.3376040Z Requirement already satisfied: Flask-SQLAlchemy<4,>=3.1
+CI Build	Install dependencies	2026-11-05T07:50:15.3381270Z Requirement already satisfied: SQLAlchemy<3,>=2.0
+CI Build	Install dependencies	2026-11-05T07:50:15.3398710Z Requirement already satisfied: Flask-Talisman<2,>=1.1
+CI Build	Install dependencies	2026-11-05T07:50:15.3409110Z Requirement already satisfied: Flask-Cors<7,>=6
+CI Build	Install dependencies	2026-11-05T07:50:15.3419970Z Requirement already satisfied: psycopg2-binary<3,>=2.9
+CI Build	Install dependencies	2026-11-05T07:50:19.9021330Z Successfully installed factory-boy-3.3.1 flake8-7.1.1 nose-1.3.7 nose-cov-1.1 pinocchio-0.4.3
+✓ Install dependencies (14s)
 
-CI Build	Lint with flake8	2026-11-05T02:14:19.2204560Z ##[group]Run flake8 service tests --count --select=E9,F63,F7,F82 --show-source --statistics
-CI Build	Lint with flake8	2026-11-05T02:14:19.2205820Z flake8 service tests --count --max-complexity=10 --max-line-length=127 --statistics
-CI Build	Lint with flake8	2026-11-05T02:14:21.8834120Z 0
+CI Build	Lint with flake8	2026-11-05T07:50:30.2204560Z ##[group]Run flake8 service tests --count --select=E9,F63,F7,F82 --show-source --statistics
+CI Build	Lint with flake8	2026-11-05T07:50:30.2205820Z flake8 service tests --count --max-complexity=10 --max-line-length=127 --statistics
+CI Build	Lint with flake8	2026-11-05T07:50:32.8834120Z 0
 ✓ Lint with flake8 (2s)
 
-CI Build	Run unit tests with nosetests	2026-11-05T02:14:22.0104780Z ##[group]Run nosetests --verbosity=2 --with-spec --spec-color --with-coverage --cover-package=service
-CI Build	Run unit tests with nosetests	2026-11-05T02:14:25.6123450Z Account Service Tests
-CI Build	Run unit tests with nosetests	2026-11-05T02:14:25.6124900Z   ✓ It should return a healthy status
-CI Build	Run unit tests with nosetests	2026-11-05T02:14:25.6126120Z   ✓ It should return the service name and version
-CI Build	Run unit tests with nosetests	2026-11-05T02:14:25.6127010Z   ✓ It should create a new Account
-CI Build	Run unit tests with nosetests	2026-11-05T02:14:25.6128400Z   ✓ It should list all Accounts
-CI Build	Run unit tests with nosetests	2026-11-05T02:14:25.6129510Z   ✓ It should read a single Account
-CI Build	Run unit tests with nosetests	2026-11-05T02:14:25.6130620Z   ✓ It should update an existing Account
-CI Build	Run unit tests with nosetests	2026-11-05T02:14:25.6131740Z   ✓ It should delete an Account
-CI Build	Run unit tests with nosetests	2026-11-05T02:14:25.6132850Z   ✓ It should return secure headers and a CORS policy
-CI Build	Run unit tests with nosetests	2026-11-05T02:14:26.9211140Z ----------------------------------------------------------------------
-CI Build	Run unit tests with nosetests	2026-11-05T02:14:26.9213200Z Ran 32 tests in 1.947s
-CI Build	Run unit tests with nosetests	2026-11-05T02:14:26.9214980Z
-CI Build	Run unit tests with nosetests	2026-11-05T02:14:26.9216740Z OK
-✓ Run unit tests with nosetests (5s)
+CI Build	Run unit tests with nosetests	2026-11-05T07:50:33.0104780Z ##[group]Run nosetests --verbosity=2 --with-spec --spec-color --with-coverage --cover-package=service
+CI Build	Run unit tests with nosetests	2026-11-05T07:50:36.4123450Z Account Model Tests
+CI Build	Run unit tests with nosetests	2026-11-05T07:50:36.4124900Z   ✓ It should create an Account and add it to the database
+CI Build	Run unit tests with nosetests	2026-11-05T07:50:36.4126120Z   ✓ It should update an Account in the database
+CI Build	Run unit tests with nosetests	2026-11-05T07:50:36.4127010Z   ✓ It should delete an Account from the database
+CI Build	Run unit tests with nosetests	2026-11-05T07:50:36.4128400Z   ✓ It should return every Account in the database
+CI Build	Run unit tests with nosetests	2026-11-05T07:50:36.4129510Z   ✓ It should find Accounts by name
+CI Build	Run unit tests with nosetests	2026-11-05T07:50:36.4130620Z   ✓ It should serialize an Account into a dictionary
+CI Build	Run unit tests with nosetests	2026-11-05T07:50:36.4131740Z   ✓ It should deserialize a dictionary into an Account
+CI Build	Run unit tests with nosetests	2026-11-05T07:50:36.4132850Z Account Service Tests
+CI Build	Run unit tests with nosetests	2026-11-05T07:50:36.4133960Z   ✓ It should return a healthy status
+CI Build	Run unit tests with nosetests	2026-11-05T07:50:36.4135070Z   ✓ It should return the service name and version
+CI Build	Run unit tests with nosetests	2026-11-05T07:50:36.4136180Z   ✓ It should create a new Account
+CI Build	Run unit tests with nosetests	2026-11-05T07:50:38.4137290Z   ✓ It should list all Accounts
+CI Build	Run unit tests with nosetests	2026-11-05T07:50:38.4138400Z   ✓ It should read a single Account
+CI Build	Run unit tests with nosetests	2026-11-05T07:50:38.4139510Z   ✓ It should update an existing Account
+CI Build	Run unit tests with nosetests	2026-11-05T07:50:38.4140620Z   ✓ It should delete an Account
+CI Build	Run unit tests with nosetests	2026-11-05T07:50:38.4141730Z   ✓ It should return secure headers and a CORS policy
+CI Build	Run unit tests with nosetests	2026-11-05T07:50:39.9211140Z ----------------------------------------------------------------------
+CI Build	Run unit tests with nosetests	2026-11-05T07:50:39.9213200Z Ran 32 tests in 1.947s
+CI Build	Run unit tests with nosetests	2026-11-05T07:50:39.9214980Z
+CI Build	Run unit tests with nosetests	2026-11-05T07:50:39.9216740Z OK
+✓ Run unit tests with nosetests (7s)
 
-CI Build	Post Run actions/checkout@v4	2026-11-05T02:14:27.8845120Z Post job cleanup.
-✓ Post Run actions/checkout@v4 (0s)
+CI Build	Post Checkout	2026-11-05T07:50:40.8845120Z Post job cleanup.
+✓ Post Checkout (0s)
 
-CI Build	Complete job	2026-11-05T02:14:28.1129470Z Cleaning up orphan processes
+CI Build	Stop containers	2026-11-05T07:50:41.1129470Z Stopping service containers
+✓ Stop containers (0s)
+
+CI Build	Complete job	2026-11-05T07:50:42.1129470Z Cleaning up orphan processes
 ✓ Complete job (0s)
 
-✓ CI Build · #12
-  main · push · 3f9c1a2
-  Status: Success
-  Total duration: 25s
-  https://github.com/Krushnansh22/devops-capstone-project/actions/runs/12648193755
+https://github.com/Krushnansh22/devops-capstone-project/actions/runs/41989993595
