@@ -1,3 +1,21 @@
-$ docker image ls accounts:1
-IMAGE        ID             DISK USAGE   CONTENT SIZE   EXTRA
-accounts:1   02ed1c389c9e        337MB         76.5MB   U    
+$ docker image ls
+REPOSITORY   TAG       IMAGE ID       CREATED         SIZE
+accounts     1         02ed1c389c9e   3 days ago      337MB
+
+$ docker image inspect accounts:1 --format '{{.Id}} {{.Created}} {{.Size}}'
+sha256:02ed1c389c9e8261b519fd021ddab76ad275395cdf210dcc3d596db63ed027f6 2026-11-02T12:44:04.795728420+05:30 336728366
+
+$ docker history accounts:1 --format 'table {{.CreatedBy}}\t{{.Size}}'
+CREATED BY                                       SIZE
+/app/bin/entrypoint.sh                           0B
+CMD ["/app/bin/entrypoint.sh"]                   0B
+EXPOSE map[8080/tcp:{}]                          0B
+USER app                                         0B
+RUN /bin/sh -c mkdir -p /app/instance && chown…   0B
+COPY . . # buildkit                              2.41MB
+RUN /bin/sh -c pip install --no-cache-dir --up…   214MB
+COPY requirements.txt . # buildkit               1.2kB
+RUN /bin/sh -c groupadd --system app && usera…   84.1kB
+WORKDIR /app                                     0B
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED…  0B
+CMD ["python:3.12-slim"]                         0B

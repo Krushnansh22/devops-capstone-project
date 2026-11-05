@@ -1,0 +1,56 @@
+$ nosetests --verbosity=2 --with-spec --spec-color --with-coverage --cover-package=service
+Account Model Tests
+  ✓ It should create an Account and add it to the database
+  ✓ It should update an Account in the database
+  ✓ It should delete an Account from the database
+  ✓ It should return every Account in the database
+  ✓ It should find Accounts by name
+  ✓ It should serialize an Account into a dictionary
+  ✓ It should deserialize a dictionary into an Account
+  ✓ It should accept an explicit date_joined
+  ✓ It should raise DataValidationError when a required field is missing
+  ✓ It should raise DataValidationError when the body is not a dict
+  ✓ It should reject an empty name
+  ✓ It should reject a name longer than the column
+  ✓ It should refuse to update an Account with no id
+  ✓ It should have a useful repr
+
+Flask CLI Command Tests
+  ✓ It should call the db-create command
+  ✓ It should seed the database with sample accounts
+  ✓ It should add exactly three accounts per seed run
+
+Account Service Tests
+  ✓ It should return a healthy status
+  ✓ It should return the service name and version
+  ✓ It should create a new Account
+  ✓ It should reject a create without a JSON content type
+  ✓ It should reject a create with missing fields
+  ✓ It should list all Accounts
+  ✓ It should return an empty list when there are no Accounts
+  ✓ It should read a single Account
+  ✓ It should return 404 for a missing Account
+  ✓ It should update an existing Account
+  ✓ It should return 404 when updating a missing Account
+  ✓ It should reject an update without a JSON content type
+  ✓ It should delete an Account
+  ✓ It should return 404 when deleting a missing Account
+  ✓ It should return secure headers and a CORS policy
+
+Name                          Stmts   Miss  Cover   Missing
+-----------------------------------------------------------
+service/__init__.py              31      0   100%
+service/config.py                 6      0   100%
+service/models.py               108      2    98%   84, 91
+service/routes.py               133      4    97%   118-121
+service/common/cli_commands.py   38      0   100%
+service/common/error_handlers.py 27      1    96%   42
+service/common/log_handlers.py   21      3    86%   57-59
+service/common/status.py          2      0   100%
+-----------------------------------------------------------
+TOTAL                           366      10    97%
+
+----------------------------------------------------------------------
+Ran 32 tests in 1.284s
+
+OK

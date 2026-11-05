@@ -1,7 +1,10 @@
-$ curl -i -s -X POST http://127.0.0.1:5000/accounts     -H 'Content-Type: application/json'     -d '{"name":"John Doe","email":"john@doe.com","address":"123 Main St.","phone_number":"555-1212"}'
+$ curl -i -s -X POST http://127.0.0.1:5000/accounts \
+    -H "Content-Type: application/json" \
+    -d '{"name": "John Doe", "email": "john@doe.com", "address": "123 Main St.", "phone_number": "555-1212"}'
 HTTP/1.1 201 CREATED
-Server: Werkzeug/3.1.9 Python/3.14.4
-Date: Mon, 02 Nov 2026 07:08:41 GMT
+Server: gunicorn
+Date: Thu, 05 Nov 2026 07:45:25 GMT
+Connection: close
 Content-Type: application/json
 Content-Length: 128
 Location: http://127.0.0.1:5000/accounts/1
@@ -12,7 +15,6 @@ X-Frame-Options: SAMEORIGIN
 X-Content-Type-Options: nosniff
 Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:
 Referrer-Policy: strict-origin-when-cross-origin
-Connection: close
 
-{"address":"123 Main St.","date_joined":"2026-11-02","email":"john@doe.com","id":1,"name":"John Doe","phone_number":"555-1212"}
+{"address":"123 Main St.","date_joined":"2026-11-05","email":"john@doe.com","id":1,"name":"John Doe","phone_number":"555-1212"}
 

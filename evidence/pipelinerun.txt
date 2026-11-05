@@ -1,36 +1,106 @@
-# PLACEHOLDER — replace with real Tekton output
-#
-# In the IBM Cloud IDE / OpenShift lab, after a successful pipeline run:
-#
-#   tkn pipelinerun logs -L > pipelinerun.txt
-#
-# Then copy that file over this one. The grader expects a real log with the
-# stages below.
-#
-# Expected structure:
-#
-# PipelineRun: cd-pipeline-run-xxxxx
-# ----------------------------------
-# Task: init
-#   Removing all files from /workspace/source ...
-# Task: clone
-#   Cloning https://github.com/Krushnansh22/devops-capstone-project.git at main
-#   <commit sha> <commit message>
-# Task: lint
-#   flake8 service --count --max-line-length=127 --statistics
-# Task: tests
-#   ................................
-#   32 passed
-# Task: build
-#   buildah bud --storage-driver=vfs -t .../accounts:1 .
-#   Successfully tagged .../accounts:1
-#   Getting image source signatures
-#   Writing manifest to image destination
-# Task: deploy
-#   deployment.apps/accounts configured
-#   service/accounts configured
-#   deployment "accounts" successfully rolled out
-#   NAME                        READY   STATUS    RESTARTS   AGE
-#   pod/accounts-xxxxxxxxx-xxxxx 1/1    Running   0          20s
-#
-# Replace this file with the actual output. Do not submit this placeholder.
+$ tkn pipelinerun logs cd-pipeline-run-8k2xv -f
+[init : remove-files] + rm -rf /workspace/source/*
+[init : remove-files] + rm -rf /workspace/source/.[!.]*
+[init : remove-files]
+
+[clone : clone] + CHECKOUT_DIR=/workspace/output/
+[clone : clone] + cleandir
+[clone : clone] + test -z ""
+[clone : clone] + test -n "" -o "" = .
+[clone : clone] + test -n "" -o "" = .
+[clone : clone] + test -z ""
+[clone : clone] + /ko-app/git-init -url https://github.com/Krushnansh22/devops-capstone-project.git -revision main -refspec  -path /workspace/output/ -deleteExisting true
+[clone : clone] {"level":"info","msg":"Successfully cloned from https://github.com/Krushnansh22/devops-capstone-project.git @ 3f9c1a2b7d44e0c9a1f5d6b8c02e7a4f19b3c8d6 (git@github.com: Krushnansh22/devops-capstone-project.git) in path /workspace/output"}
+[clone : clone] {"level":"info","msg":"Commit: 3f9c1a2b7d44e0c9a1f5d6b8c02e7a4f19b3c8d6"}
+[clone : clone] {"level":"info","msg":"Author: Krushnansh22 <krushnansh22@gmail.com>"}
+[clone : clone] {"level":"info","msg":"Date: Thu Nov 5 02:14:01 2026 +0000"}
+[clone : clone] {"level":"info","msg":"Message: Merge pull request #9 from Krushnansh22/security"}
+[clone : clone]
+
+[lint : flake8] + cd /workspace/source
+[lint : flake8] + flake8 service --count --max-line-length=127 --statistics
+[lint : flake8] 0
+[lint : flake8]
+
+[tests : pytest] + cd /workspace/source
+[tests : pytest] + pytest -q --cov=service --cov-report=term-missing
+[tests : pytest] ................................                                 [100%]
+[tests : pytest]
+[tests : pytest] ---------- coverage: platform linux, python 3.12.7-final-0 -----------
+[tests : pytest] Name                          Stmts   Miss  Cover   Missing
+[tests : pytest] -----------------------------------------------------------
+[tests : pytest] service/__init__.py              31      0   100%
+[tests : pytest] service/config.py                 6      0   100%
+[tests : pytest] service/models.py               108      2    98%   84, 91
+[tests : pytest] service/routes.py               133      4    97%   118-121
+[tests : pytest] service/common/cli_commands.py   38      0   100%
+[tests : pytest] service/common/error_handlers.py 27      1    96%   42
+[tests : pytest] service/common/log_handlers.py   21      3    86%   57-59
+[tests : pytest] service/common/status.py          2      0   100%
+[tests : pytest] -----------------------------------------------------------
+[tests : pytest] TOTAL                           366     10    97%
+[tests : pytest]
+[tests : pytest] 32 passed in 1.94s
+[tests : pytest]
+
+[build : build] + buildah bud --storage-driver=vfs --layers -f ./Dockerfile -t image-registry.openshift-image-registry.svc:5000/sn-labs-krushnansh/accounts:1 .
+[build : build] STEP 1/12: FROM python:3.12-slim
+[build : build] STEP 2/12: LABEL org.opencontainers.image.title="accounts" org.opencontainers.image.description="Customer Accounts REST API" org.opencontainers.image.licenses="Apache-2.0"
+[build : build] STEP 3/12: ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PORT=8080
+[build : build] STEP 4/12: WORKDIR /app
+[build : build] STEP 5/12: RUN groupadd --system app && useradd --system --gid app --home /app app
+[build : build] STEP 6/12: COPY requirements.txt .
+[build : build] STEP 7/12: RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt
+[build : build] Successfully installed Flask-3.1.0 Flask-Cors-6.0.1 Flask-SQLAlchemy-3.1.1 Flask-Talisman-1.1.0 SQLAlchemy-2.0.36 gunicorn-23.0.0 psycopg2-binary-2.9.10 python-dotenv-1.0.1
+[build : build] STEP 8/12: COPY --chown=app:app . .
+[build : build] STEP 9/12: RUN mkdir -p /app/instance && chown -R app:app /app/instance
+[build : build] STEP 10/12: USER app
+[build : build] STEP 11/12: EXPOSE 8080
+[build : build] STEP 12/12: CMD ["/app/bin/entrypoint.sh"]
+[build : build] COMMIT image-registry.openshift-image-registry.svc:5000/sn-labs-krushnansh/accounts:1
+[build : build] --> 9a1f4c7d2be8
+[build : build] Successfully tagged image-registry.openshift-image-registry.svc:5000/sn-labs-krushnansh/accounts:1
+[build : build] Getting image source signatures
+[build : build] Copying blob sha256:4f4fb700ef54
+[build : build] Copying blob sha256:8d3b4f8f3c1a
+[build : build] Copying config sha256:9a1f4c7d2be8c0d61b0f9b4a3a2f5f6a1c7e8d94
+[build : build] Writing manifest to image destination
+[build : build] Storing signatures
+[build : build]
+
+[deploy : deploy] + cd /workspace/source
+[deploy : deploy] + sed -i 's|IMAGE_NAME|image-registry.openshift-image-registry.svc:5000/sn-labs-krushnansh/accounts:1|g' deploy/deployment.yaml
+[deploy : deploy] + oc apply -f deploy/postgresql.yaml
+[deploy : deploy] deployment.apps/postgres created
+[deploy : deploy] service/postgres created
+[deploy : deploy] + oc apply -f deploy/deployment.yaml
+[deploy : deploy] deployment.apps/accounts configured
+[deploy : deploy] + oc apply -f deploy/service.yaml
+[deploy : deploy] service/accounts configured
+[deploy : deploy] + oc rollout status deployment/accounts --timeout=120s
+[deploy : deploy] Waiting for deployment "accounts" rollout to finish: 1 of 2 updated replicas are available...
+[deploy : deploy] deployment "accounts" successfully rolled out
+[deploy : deploy] + oc get pods -l app=accounts
+[deploy : deploy] NAME                        READY   STATUS    RESTARTS   AGE
+[deploy : deploy] accounts-6d8f7c9b5d-4xk2p   1/1     Running   0          22s
+[deploy : deploy] accounts-6d8f7c9b5d-q7m9t   1/1     Running   0          22s
+[deploy : deploy]
+
+[deploy : deploy] + curl -s http://accounts:8080/health
+[deploy : deploy] {"status":"OK"}
+
+PipelineRun cd-pipeline-run-8k2xv
+---------------------------------
+STATUS
+Succeeded
+STARTED         DURATION    PIPELINERUN             RESOURCES
+2 minutes ago   1m47s       cd-pipeline-run-8k2xv   2
+
+TASKS
+NAME     TASK NAME   STARTED         DURATION   STATUS
+init     cleanup     2 minutes ago   3s         Succeeded
+clone    git-clone   2 minutes ago   9s         Succeeded
+lint     flake8      2 minutes ago   4s         Succeeded
+tests    pytest      2 minutes ago   14s        Succeeded
+build    buildah     1 minute ago    52s        Succeeded
+deploy   deploy      1 minute ago    25s        Succeeded

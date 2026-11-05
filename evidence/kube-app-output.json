@@ -1,0 +1,6 @@
+$ curl -s http://127.0.0.1:8080/ | python3 -m json.tool
+{
+    "name": "Account REST API Service",
+    "paths": "http://127.0.0.1:8080/accounts",
+    "version": "1.0"
+}
